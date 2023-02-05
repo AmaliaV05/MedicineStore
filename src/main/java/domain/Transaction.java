@@ -7,7 +7,7 @@ public class Transaction extends Entity {
     private int clientCardNumber;
     private int quantity;
     private LocalDateTime dateTime;
-    private int drugId;
+    private int medicineId;
 
     public Transaction() { }
 
@@ -16,14 +16,14 @@ public class Transaction extends Entity {
         this.clientCardNumber = clientCardNumber;
         this.quantity = quantity;
         this.dateTime = dateTime;
-        this.drugId = drugId;
+        this.medicineId = drugId;
     }
 
     public Transaction(int clientCardNumber, int quantity, LocalDateTime dateTime, int drugId) {
         this.clientCardNumber = clientCardNumber;
         this.quantity = quantity;
         this.dateTime = dateTime;
-        this.drugId = drugId;
+        this.medicineId = drugId;
     }
 
     public int getClientCardNumber() {
@@ -50,12 +50,12 @@ public class Transaction extends Entity {
         this.dateTime = dateTime;
     }
 
-    public int getDrugId() {
-        return drugId;
+    public int getMedicineId() {
+        return medicineId;
     }
 
-    public void setDrugId(int drugId) {
-        this.drugId = drugId;
+    public void setMedicineId(int medicineId) {
+        this.medicineId = medicineId;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Transaction extends Entity {
                 ", clientCardNumber=" + clientCardNumber +
                 ", quantity=" + quantity +
                 ", dateTime=" + dateTime +
-                ", drugId=" + drugId +
+                ", medicineId=" + medicineId +
                 '}';
     }
 
@@ -77,12 +77,12 @@ public class Transaction extends Entity {
         Transaction that = (Transaction) o;
         return clientCardNumber == that.clientCardNumber &&
                 quantity == that.quantity &&
-                drugId == that.drugId &&
+                medicineId == that.medicineId &&
                 Objects.equals(dateTime, that.dateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), clientCardNumber, quantity, dateTime, drugId);
+        return Objects.hash(super.hashCode(), clientCardNumber, quantity, dateTime, medicineId);
     }
 }

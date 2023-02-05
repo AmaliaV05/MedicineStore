@@ -23,9 +23,9 @@ public class MedicineFileRepository extends JSONFileRepository<Medicine> {
 
                 Type listType = new TypeToken<ArrayList<Medicine>>(){}.getType();
                 String contents = bufferedReader.lines().collect(Collectors.joining());
-                List<Medicine> drugList = gson.fromJson(contents, listType);
+                List<Medicine> medicineList = gson.fromJson(contents, listType);
 
-                for (Medicine obj : drugList) {
+                for (Medicine obj : medicineList) {
                     entities.put(obj.getIdEntity(), obj);
                 }
             }
