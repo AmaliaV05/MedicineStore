@@ -313,7 +313,7 @@ public class Controller {
             int quantity = transaction.getQuantity();
             LocalDateTime dateTime = transaction.getDateTime();
 
-            transactionService.updateTransaction(idTransaction, medicineId, clientCardNumber, dateTime, quantity);
+            transactionService.updateTransaction(idTransaction, clientCardNumber, quantity, dateTime,  medicineId);
             transactionsObservableList.clear();
             transactionsObservableList.addAll(transactionService.getTransactions());
             tblTransaction.refresh();
