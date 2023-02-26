@@ -1,6 +1,6 @@
 package repository;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import domain.Entity;
 
 import java.io.BufferedWriter;
@@ -8,6 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.security.KeyException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 import static java.util.Collections.max;
@@ -20,10 +23,15 @@ public class JSONFileRepository<T extends Entity> implements IRepository<T> {
 
     public JSONFileRepository(String filename, Type type) {
         this.filename = filename;
-        this.gson = new Gson();
-
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class,
+                (JsonDeserializer<LocalDateTime>) (json, type1, jsonDeserializationContext) ->
+                        ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toLocalDateTime());
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class,
+                (JsonSerializer<LocalDateTime>) (localDateTime, type2, jsonSerializationContext) ->
+                        new JsonPrimitive(localDateTime.atOffset(ZoneOffset.UTC).toString()));
+        this.gson = gsonBuilder.setPrettyPrinting().create();
         readFile();
-
         try {
             currentId = max(entities.keySet()) + 1;
         } catch (NoSuchElementException ex) {

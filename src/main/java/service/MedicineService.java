@@ -1,6 +1,9 @@
 package service;
 
-import domain.*;
+import domain.Medicine;
+import domain.MedicineValidator;
+import domain.MedicinesWithNumberOfTransactions;
+import domain.Transaction;
 import repository.IRepository;
 
 import java.io.IOException;
@@ -26,32 +29,25 @@ public class MedicineService {
         this.medicineIRepository.create(medicineToAdd);
     }
 
-    public void updateMedicine(int id, String name, String producer, BigDecimal price, boolean isOTC, int stock) throws MedicineException, KeyException, IOException {
-        Medicine oldValueMedicine = medicineIRepository.readOne(id);
-        Medicine medicineToUpdate = new Medicine(id, name, producer, price, isOTC, stock);
-        this.medicineIRepository.update(medicineToUpdate);
+    public void updateMedicine(int id, String name, String producer, BigDecimal price, boolean isOTC, int stock) throws Exception {
+        this.getMedicine(id);
+        Medicine medicine = new Medicine(id, name, producer, price, isOTC, stock);
+        this.medicineIRepository.update(medicine);
     }
 
-    public void deleteMedicine(int id) throws KeyException, IOException {
-        Medicine oldValue = medicineIRepository.readOne(id);
-        this.medicineIRepository.delete(id);
+    public void deleteMedicine(int id) throws Exception {
+        Medicine medicine = this.getMedicine(id);
+        this.medicineIRepository.delete(medicine.getIdEntity());
     }
 
     public List<Medicine> getMedicines() { return this.medicineIRepository.read(); }
 
-    public Medicine getMedicine(int id) throws Exception {
-        return this.medicineIRepository.readOne(id);
-    }
-
-    public List<Medicine> searchMedicines(String searchText) {
-        List<Medicine> medicines = new ArrayList<>();
-        for (Medicine medicine : this.getMedicines()) {
-            if (medicine.getName().toLowerCase().contains(searchText.toLowerCase()) ||
-                    medicine.getProducer().toLowerCase().contains(searchText.toLowerCase())) {
-                medicines.add(medicineIRepository.readOne(medicine.getIdEntity()));
-            }
+    public Medicine getMedicine(int id) {
+        Medicine medicine = this.medicineIRepository.readOne(id);
+        if (medicine == null) {
+            throw new IdNotFoundException("Medicine id does not exist!");
         }
-        return medicines;
+        return medicine;
     }
 
     public List<MedicinesWithNumberOfTransactions> getMedicinesOrderedByNumberOfTransactions() {
@@ -80,7 +76,7 @@ public class MedicineService {
         for(Medicine medicine : this.medicineIRepository.read()) {
             if(medicine.getPrice().compareTo(minimumMedicinePriceValue) <= 0) {
                 BigDecimal amount = percentageToIncrease.divide(new BigDecimal(100), 2, RoundingMode.UNNECESSARY).multiply(medicine.getPrice());
-                BigDecimal newPrice = medicine.getPrice().add(amount);
+                BigDecimal newPrice = medicine.getPrice().add(amount).setScale(2, RoundingMode.HALF_UP);
                 medicine.setPrice(newPrice);
                 this.medicineIRepository.update(medicine);
             }

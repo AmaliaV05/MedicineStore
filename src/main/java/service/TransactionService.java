@@ -19,7 +19,8 @@ public class TransactionService {
         this.transactionValidator = transactionValidator;
     }
 
-    public void addTransaction(int clientCardNumber, int quantity, LocalDateTime dateTime, int medicineId) throws TransactionException, KeyException, IOException {
+    public void addTransaction(int clientCardNumber, int quantity, int medicineId) throws TransactionException, KeyException, IOException {
+        LocalDateTime dateTime = LocalDateTime.now();
         Transaction transactionToAdd = new Transaction(clientCardNumber, quantity, dateTime, medicineId);
         this.checkMedicineExists(medicineId);
         this.transactionValidator.validateTransaction(transactionToAdd);
@@ -56,18 +57,6 @@ public class TransactionService {
         if (medicine == null) {
             throw new IdNotFoundException("Medicine id does not exist!");
         }
-    }
-
-    public List<Entity> searchTransactions(String searchText, LocalDateTime dateTime){
-        List<Entity> transactions = new ArrayList<>();
-
-        for (Transaction transaction : this.getTransactions()) {
-            if (String.valueOf(transaction.getClientCardNumber()).contains(searchText) ||
-                    transaction.getDateTime().toLocalDate().isEqual(dateTime.toLocalDate())) {
-                transactions.add(transactionRepository.readOne(transaction.getIdEntity()));
-            }
-        }
-        return transactions;
     }
 
     public List<ClientCardNumberWithNumberOfTransactions> getClientCardNumberOrderedByNumberOfTransactions() {

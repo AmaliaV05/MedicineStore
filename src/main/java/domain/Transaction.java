@@ -26,6 +26,12 @@ public class Transaction extends Entity {
         this.medicineId = drugId;
     }
 
+    public Transaction(int clientCardNumber, int quantity, int medicineId) {
+        this.clientCardNumber = clientCardNumber;
+        this.quantity = quantity;
+        this.medicineId = medicineId;
+    }
+
     public int getClientCardNumber() {
         return clientCardNumber;
     }

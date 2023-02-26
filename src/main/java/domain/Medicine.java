@@ -7,25 +7,25 @@ public class Medicine extends Entity {
     private String name;
     private String producer;
     private BigDecimal price;
-    private boolean isOTC;
+    private boolean oTC;
     private int stock;
 
     public Medicine() { }
 
-    public Medicine(int idEntity, String name, String producer, BigDecimal price, boolean isOTC, int stock) {
+    public Medicine(int idEntity, String name, String producer, BigDecimal price, boolean oTC, int stock) {
         super(idEntity);
         this.name = name;
         this.producer = producer;
         this.price = price;
-        this.isOTC = isOTC;
+        this.oTC = oTC;
         this.stock = stock;
     }
 
-    public Medicine(String name, String producer, BigDecimal price, boolean isOTC, int stock) {
+    public Medicine(String name, String producer, BigDecimal price, boolean oTC, int stock) {
         this.name = name;
         this.producer = producer;
         this.price = price;
-        this.isOTC = isOTC;
+        this.oTC = oTC;
         this.stock = stock;
     }
 
@@ -54,11 +54,11 @@ public class Medicine extends Entity {
     }
 
     public boolean isOTC() {
-        return isOTC;
+        return oTC;
     }
 
-    public void setOTC(boolean OTC) {
-        isOTC = OTC;
+    public void setOTC(boolean oTC) {
+        this.oTC = oTC;
     }
 
     public int getStock() {
@@ -76,7 +76,7 @@ public class Medicine extends Entity {
                 ", name='" + name + '\'' +
                 ", producer='" + producer + '\'' +
                 ", price=" + price +
-                ", isOTC=" + isOTC +
+                ", isOTC=" + oTC +
                 ", stock=" + stock +
                 '}';
     }
@@ -87,7 +87,7 @@ public class Medicine extends Entity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Medicine medicine = (Medicine) o;
-        return isOTC == medicine.isOTC &&
+        return oTC == medicine.oTC &&
                 stock == medicine.stock &&
                 Objects.equals(name, medicine.name) &&
                 Objects.equals(producer, medicine.producer) &&
@@ -96,6 +96,6 @@ public class Medicine extends Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, producer, price, isOTC, stock);
+        return Objects.hash(super.hashCode(), name, producer, price, oTC, stock);
     }
 }

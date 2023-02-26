@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="660.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AmaliaV05.Controller">
+   <children>
+      <GridPane layoutX="23.0" layoutY="20.0" prefHeight="620.0" prefWidth="753.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TabPane prefHeight="93.0" prefWidth="264.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Medicines">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="14.0" layoutY="15.0" prefHeight="560.0" prefWidth="725.0">
+                                 <children>
+                                    <GridPane>
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label prefHeight="17.0" prefWidth="75.0" text="Search" GridPane.columnIndex="1" />
+                                          <TextField fx:id="txtSearchMedicine" prefWidth="171.0" promptText="enter keyword" GridPane.columnIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane>
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="txtMedicine" promptText="medicine" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtProducer" promptText="producer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtPrice" promptText="price" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtStock" promptText="stock" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                          <CheckBox fx:id="chkIsOTC" mnemonicParsing="false" prefWidth="80.0" text="OTC" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <Button fx:id="btnAddMedicine" mnemonicParsing="false" onAction="#onAddMedicine" prefHeight="25.0" prefWidth="80.0" text="Add" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                          <Button fx:id="btnUpdateMedicine" mnemonicParsing="false" onAction="#onUpdateMedicine" prefHeight="25.0" prefWidth="80.0" text="Update" GridPane.rowIndex="3" />
+                                          <Button fx:id="btnDeleteMedicine" mnemonicParsing="false" onAction="#onDeleteMedicine" prefHeight="25.0" prefWidth="80.0" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                    <TableView fx:id="tblMedicine" prefHeight="200.0" prefWidth="527.0">
+                                      <columns>
+                                        <TableColumn fx:id="colMedicineId" prefWidth="48.000003814697266" text="ID" />
+                                        <TableColumn fx:id="colMedicineName" prefWidth="240.0" text="MEDICINE" />
+                                          <TableColumn fx:id="colMedicineProducer" prefWidth="211.33322143554688" text="PRODUCER" />
+                                          <TableColumn fx:id="colMedicinePrice" prefWidth="89.9998779296875" text="PRICE" />
+                                          <TableColumn fx:id="colMedicineIsOTC" prefWidth="67.3333740234375" text="OTC" />
+                                          <TableColumn fx:id="colMedicineStock" prefWidth="63.0" text="STOCK" />
+                                      </columns>
+                                    </TableView>
+                                    <GridPane>
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="661.3332926432292" minWidth="10.0" prefWidth="407.66661580403644" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="318.33338419596356" minWidth="0.0" prefWidth="318.33338419596356" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <TableView fx:id="tblOrderMedicinesByTransactions" prefHeight="200.0" prefWidth="407.0" GridPane.rowIndex="3">
+                                            <columns>
+                                              <TableColumn fx:id="colMedicineIdOrderByTransactions" prefWidth="80.00000381469727" text="MEDICINE ID" />
+                                              <TableColumn fx:id="colMedicineNameOrderByTransactions" prefWidth="190.66663360595703" text="MEDICINE" />
+                                                <TableColumn fx:id="colTransactionsNumber" prefWidth="135.3333740234375" text="NO. TRANSACTIONS" />
+                                            </columns>
+                                          </TableView>
+                                          <GridPane GridPane.rowIndex="1">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label fx:id="lblOrderMedicinesByTransactions" text="Order medicines by transactions" />
+                                                <Button fx:id="btnOrderMedicinesByTransactions" mnemonicParsing="false" onAction="#onGetOrderedMedicinesByTransactions" prefHeight="25.0" prefWidth="80.0" text="Apply" GridPane.columnIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                          <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <TextField fx:id="txtRaiseMedicinePrice" promptText="price" GridPane.columnIndex="1" />
+                                                <TextField fx:id="txtRaiseMedicinePricePercentage" promptText="percentage" GridPane.columnIndex="2" />
+                                             </children>
+                                          </GridPane>
+                                          <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label fx:id="lblRaiseMedicinePrice" text="Raise medicine price" />
+                                                <Button fx:id="btnRaiseMedicinePrice" mnemonicParsing="false" onAction="#onRaiseMedicinePrice" prefHeight="25.0" prefWidth="80.0" text="Apply" GridPane.columnIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Transactions">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="14.0" layoutY="15.0" prefHeight="560.0" prefWidth="725.0">
+                                 <children>
+                                    <GridPane>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label prefHeight="17.0" prefWidth="75.0" text="Search" GridPane.columnIndex="1" />
+                                          <TextField fx:id="txtSearchTransaction" prefWidth="171.0" promptText="enter keyword" GridPane.columnIndex="2" />
+                                          <DatePicker fx:id="dpTransaction" GridPane.columnIndex="4" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="txtClientCard" promptText="client card" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtMedicineId" promptText="medicine id" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtQuantity" promptText="quantity" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <Button fx:id="btnAddTransaction" mnemonicParsing="false" onAction="#onAddTransaction" prefHeight="25.0" prefWidth="80.0" text="Add" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <Button fx:id="btnUpdateTransaction" mnemonicParsing="false" onAction="#onUpdateTransaction" prefHeight="25.0" prefWidth="80.0" text="Update" GridPane.rowIndex="3" />
+                                          <Button fx:id="btnDeleteTransaction" mnemonicParsing="false" onAction="#onDeleteTransaction" prefHeight="25.0" prefWidth="80.0" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                    <TableView fx:id="tblTransaction" prefHeight="200.0" prefWidth="527.0">
+                                       <columns>
+                                          <TableColumn fx:id="colTransactionId" prefWidth="48.000003814697266" text="ID" />
+                                          <TableColumn fx:id="colClientCard" prefWidth="161.33330535888672" text="CLIENT CARD" />
+                                          <TableColumn fx:id="colMedicineTransaction" prefWidth="240.0" text="MEDICINE" />
+                                          <TableColumn fx:id="colMedicineQuantityTransaction" prefWidth="89.9998779296875" text="QUANTITY" />
+                                          <TableColumn fx:id="colTransactionDateTime" prefWidth="184.00002034505212" text="DATE TIME" />
+                                       </columns>
+                                    </TableView>
+                                    <GridPane>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="661.3332926432292" minWidth="10.0" prefWidth="407.66661580403644" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="318.33338419596356" minWidth="0.0" prefWidth="318.33338419596356" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <TableView fx:id="tblOrderClientCardsByTransactions" prefHeight="200.0" prefWidth="407.0" GridPane.rowIndex="3">
+                                             <columns>
+                                                <TableColumn fx:id="colClientCardOrderByTransactions" prefWidth="161.0" text="CLIENT CARD" />
+                                                <TableColumn fx:id="colNumberTransactionsOrderByTransactions" prefWidth="244.6666310628255" text="NO. TRANSACTIONS" />
+                                             </columns>
+                                          </TableView>
+                                          <GridPane GridPane.rowIndex="1">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Label text="Order client cards by transactions" />
+                                                <Button fx:id="btnOrderClientCardsByTransactions" mnemonicParsing="false" onAction="#onOrderClientCardsByTransactions" prefHeight="25.0" prefWidth="80.0" text="Apply" GridPane.columnIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
