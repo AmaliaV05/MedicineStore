@@ -12,11 +12,13 @@ public class TransactionService {
     private final IRepository<Transaction> transactionRepository;
     private final IRepository<Medicine> medicineIRepository;
     private final TransactionValidator transactionValidator;
+    private final UndoRedoService undoRedoService;
 
-    public TransactionService(IRepository<Transaction> transactionRepository, IRepository<Medicine> medicineIRepository, TransactionValidator transactionValidator) {
+    public TransactionService(IRepository<Transaction> transactionRepository, IRepository<Medicine> medicineIRepository, TransactionValidator transactionValidator, UndoRedoService undoRedoService) {
         this.transactionRepository = transactionRepository;
         this.medicineIRepository = medicineIRepository;
         this.transactionValidator = transactionValidator;
+        this.undoRedoService = undoRedoService;
     }
 
     public void addTransaction(int clientCardNumber, int quantity, int medicineId) throws TransactionException, KeyException, IOException {
@@ -25,6 +27,8 @@ public class TransactionService {
         this.checkMedicineExists(medicineId);
         this.transactionValidator.validateTransaction(transactionToAdd);
         this.transactionRepository.create(transactionToAdd);
+        if (undoRedoService != null)
+            this.undoRedoService.addToUndo(new AddOperation<>(this.transactionRepository, transactionToAdd));
     }
 
     public void updateTransaction(int id, int clientCardNumber, int quantity, LocalDateTime dateTime, int medicineId) throws IdNotFoundException, KeyException, IOException {
@@ -33,11 +37,15 @@ public class TransactionService {
         this.checkMedicineExists(medicineId);
         this.transactionValidator.validateTransaction(transactionToUpdate);
         this.transactionRepository.update(transactionToUpdate);
+        if (undoRedoService != null)
+            this.undoRedoService.addToUndo(new UpdateOperation<>(this.transactionRepository, oldValue, transactionToUpdate));
     }
 
     public void deleteTransaction(int transactionId) throws IdNotFoundException, KeyException, IOException {
         Transaction transaction = getTransaction(transactionId);
         this.transactionRepository.delete(transaction.getIdEntity());
+        if (undoRedoService != null)
+            this.undoRedoService.addToUndo(new DeleteOperation<>(this.transactionRepository, transaction));
     }
 
     public Transaction getTransaction(int id) {
@@ -51,6 +59,10 @@ public class TransactionService {
     public List<Transaction> getTransactions() {
         return this.transactionRepository.read();
     }
+
+    public void undoTransactionOperation() { this.undoRedoService.undo(); }
+
+    public void redoTransactionOperation() { this.undoRedoService.redo(); }
 
     private void checkMedicineExists(int id) {
         Medicine medicine = this.medicineIRepository.readOne(id);

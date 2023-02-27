@@ -33,7 +33,7 @@ public class Main extends Application {
 
         UndoRedoService undoRedoService = new UndoRedoService();
         MedicineService medicineService = new MedicineService(medicineIRepository, transactionIRepository, medicineValidator, undoRedoService);
-        TransactionService transactionService = new TransactionService(transactionIRepository, medicineIRepository, transactionValidator);
+        TransactionService transactionService = new TransactionService(transactionIRepository, medicineIRepository, transactionValidator, undoRedoService);
 
         controller.setServices(undoRedoService, medicineService, transactionService);
 

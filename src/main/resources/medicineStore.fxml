@@ -207,6 +207,8 @@
                                           <Button fx:id="btnAddTransaction" mnemonicParsing="false" onAction="#onAddTransaction" prefHeight="25.0" prefWidth="80.0" text="Add" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                           <Button fx:id="btnUpdateTransaction" mnemonicParsing="false" onAction="#onUpdateTransaction" prefHeight="25.0" prefWidth="80.0" text="Update" GridPane.rowIndex="3" />
                                           <Button fx:id="btnDeleteTransaction" mnemonicParsing="false" onAction="#onDeleteTransaction" prefHeight="25.0" prefWidth="80.0" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Button fx:id="btnUndoTransactionOperation" mnemonicParsing="false" onAction="#onUndoTransactionOperation" prefHeight="25.0" prefWidth="80.0" text="Undo" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                                          <Button fx:id="btnRedoTransactionOperation" mnemonicParsing="false" onAction="#onRedoTransactionOperation" prefHeight="25.0" prefWidth="80.0" text="Redo" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                                        </children>
                                     </GridPane>
                                     <TableView fx:id="tblTransaction" prefHeight="200.0" prefWidth="527.0">

@@ -25,7 +25,6 @@ import service.UndoRedoService;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.KeyException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Controller {
@@ -75,6 +74,8 @@ public class Controller {
     public TableColumn<ClientCardNumberWithNumberOfTransactions, Integer> colNumberTransactionsOrderByTransactions;
     public Button btnUndoMedicineOperation;
     public Button btnRedoMedicineOperation;
+    public Button btnUndoTransactionOperation;
+    public Button btnRedoTransactionOperation;
 
     private UndoRedoService undoRedoService;
     private MedicineService medicineService;
@@ -398,6 +399,32 @@ public class Controller {
                         t.getTablePosition().getRow()).setDateTime(t.getNewValue())
         );
         tblTransaction.setItems(transactionsObservableList);
+    }
+
+    public void onUndoTransactionOperation() {
+        try {
+            transactionService.undoTransactionOperation();
+
+            transactionsObservableList.clear();
+            transactionsObservableList.addAll(transactionService.getTransactions());
+
+            tblTransaction.refresh();
+        } catch (RuntimeException rex) {
+            Common.showValidationError(rex.getMessage());
+        }
+    }
+
+    public void onRedoTransactionOperation() {
+        try {
+            transactionService.redoTransactionOperation();
+
+            transactionsObservableList.clear();
+            transactionsObservableList.addAll(transactionService.getTransactions());
+
+            tblTransaction.refresh();
+        } catch (RuntimeException rex) {
+            Common.showValidationError(rex.getMessage());
+        }
     }
 
     public void initializeTableOrderClientCardsByTransactionsCount() {
