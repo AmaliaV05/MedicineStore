@@ -75,6 +75,8 @@
                                           <Button fx:id="btnAddMedicine" mnemonicParsing="false" onAction="#onAddMedicine" prefHeight="25.0" prefWidth="80.0" text="Add" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                                           <Button fx:id="btnUpdateMedicine" mnemonicParsing="false" onAction="#onUpdateMedicine" prefHeight="25.0" prefWidth="80.0" text="Update" GridPane.rowIndex="3" />
                                           <Button fx:id="btnDeleteMedicine" mnemonicParsing="false" onAction="#onDeleteMedicine" prefHeight="25.0" prefWidth="80.0" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Button fx:id="btnUndoMedicineOperation" mnemonicParsing="false" onAction="#onUndoMedicineOperation" prefHeight="25.0" prefWidth="80.0" text="Undo" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                                          <Button fx:id="btnRedoMedicineOperation" mnemonicParsing="false" onAction="#onRedoMedicineOperation" prefHeight="25.0" prefWidth="80.0" text="Redo" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                                        </children>
                                     </GridPane>
                                     <TableView fx:id="tblMedicine" prefHeight="200.0" prefWidth="527.0">

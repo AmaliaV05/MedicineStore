@@ -14,6 +14,7 @@ import repository.TransactionFileRepository;
 import service.MedicineService;
 import service.TransactionService;
 import javafx.application.Application;
+import service.UndoRedoService;
 
 public class Main extends Application {
 
@@ -30,10 +31,11 @@ public class Main extends Application {
         IRepository<Medicine> medicineIRepository = new MedicineFileRepository("data/medicine.txt", Medicine.class);
         IRepository<Transaction> transactionIRepository = new TransactionFileRepository("data/transactions.txt", Transaction.class);
 
-        MedicineService medicineService = new MedicineService(medicineIRepository, transactionIRepository, medicineValidator);
+        UndoRedoService undoRedoService = new UndoRedoService();
+        MedicineService medicineService = new MedicineService(medicineIRepository, transactionIRepository, medicineValidator, undoRedoService);
         TransactionService transactionService = new TransactionService(transactionIRepository, medicineIRepository, transactionValidator);
 
-        controller.setServices(medicineService, transactionService);
+        controller.setServices(undoRedoService, medicineService, transactionService);
 
         primaryStage.setTitle("Medicine Store");
         primaryStage.setScene(new Scene(root, 850, 675));

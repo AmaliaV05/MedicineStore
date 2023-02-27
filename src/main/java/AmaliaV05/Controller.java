@@ -20,6 +20,7 @@ import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LocalDateTimeStringConverter;
 import service.MedicineService;
 import service.TransactionService;
+import service.UndoRedoService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -72,7 +73,10 @@ public class Controller {
     public TableView<ClientCardNumberWithNumberOfTransactions> tblOrderClientCardsByTransactions;
     public TableColumn<ClientCardNumberWithNumberOfTransactions, Integer> colClientCardOrderByTransactions;
     public TableColumn<ClientCardNumberWithNumberOfTransactions, Integer> colNumberTransactionsOrderByTransactions;
+    public Button btnUndoMedicineOperation;
+    public Button btnRedoMedicineOperation;
 
+    private UndoRedoService undoRedoService;
     private MedicineService medicineService;
     private TransactionService transactionService;
 
@@ -81,7 +85,8 @@ public class Controller {
     private final ObservableList<MedicinesWithNumberOfTransactions> medicinesByNumberOfTransactionsObservableList = FXCollections.observableArrayList();
     private final ObservableList<ClientCardNumberWithNumberOfTransactions> clientCardsByNumberOfTransactionsObservableList = FXCollections.observableArrayList();
 
-    public void setServices(MedicineService medicineService, TransactionService transactionService) {
+    public void setServices(UndoRedoService undoRedoService, MedicineService medicineService, TransactionService transactionService) {
+        this.undoRedoService = undoRedoService;
         this.medicineService = medicineService;
         this.transactionService = transactionService;
     }
@@ -217,6 +222,32 @@ public class Controller {
                         t.getTablePosition().getRow()).setStock(t.getNewValue())
         );
         tblMedicine.setItems(medicinesObservableList);
+    }
+
+    public void onUndoMedicineOperation(ActionEvent actionEvent) {
+        try {
+            medicineService.undoMedicineOperation();
+
+            medicinesObservableList.clear();
+            medicinesObservableList.addAll(medicineService.getMedicines());
+
+            tblMedicine.refresh();
+        } catch (RuntimeException rex) {
+            Common.showValidationError(rex.getMessage());
+        }
+    }
+
+    public void onRedoMedicineOperation(ActionEvent actionEvent) {
+        try {
+            medicineService.redoMedicineOperation();
+
+            medicinesObservableList.clear();
+            medicinesObservableList.addAll(medicineService.getMedicines());
+
+            tblMedicine.refresh();
+        } catch (RuntimeException rex) {
+            Common.showValidationError(rex.getMessage());
+        }
     }
 
     public void initializeTableOrderDrugsByTransactionsCount() {

@@ -1,9 +1,6 @@
 package service;
 
-import domain.Medicine;
-import domain.MedicineValidator;
-import domain.MedicinesWithNumberOfTransactions;
-import domain.Transaction;
+import domain.*;
 import repository.IRepository;
 
 import java.io.IOException;
@@ -16,28 +13,36 @@ public class MedicineService {
     private final IRepository<Medicine> medicineIRepository;
     private final IRepository<Transaction> transactionRepository;
     private final MedicineValidator medicineValidator;
+    private final UndoRedoService undoRedoService;
 
-    public MedicineService(IRepository<Medicine> medicineIRepository, IRepository<Transaction> transactionRepository, MedicineValidator medicineValidator) {
+    public MedicineService(IRepository<Medicine> medicineIRepository, IRepository<Transaction> transactionRepository, MedicineValidator medicineValidator, UndoRedoService undoRedoService) {
         this.medicineIRepository = medicineIRepository;
         this.transactionRepository = transactionRepository;
         this.medicineValidator = medicineValidator;
+        this.undoRedoService = undoRedoService;
     }
 
     public void addMedicine(String name, String producer, BigDecimal price, boolean isOTC, int stock) throws KeyException, IOException {
         Medicine medicineToAdd = new Medicine(name, producer, price, isOTC, stock);
         this.medicineValidator.validateMedicine(medicineToAdd);
         this.medicineIRepository.create(medicineToAdd);
+        if (undoRedoService != null)
+            this.undoRedoService.addToUndo(new AddOperation<>(this.medicineIRepository, medicineToAdd));
     }
 
     public void updateMedicine(int id, String name, String producer, BigDecimal price, boolean isOTC, int stock) throws Exception {
-        this.getMedicine(id);
+        Medicine oldValue = this.getMedicine(id);
         Medicine medicine = new Medicine(id, name, producer, price, isOTC, stock);
         this.medicineIRepository.update(medicine);
+        if (undoRedoService != null)
+            this.undoRedoService.addToUndo(new UpdateOperation<>(this.medicineIRepository, oldValue, medicine));
     }
 
     public void deleteMedicine(int id) throws Exception {
         Medicine medicine = this.getMedicine(id);
         this.medicineIRepository.delete(medicine.getIdEntity());
+        if (undoRedoService != null)
+            this.undoRedoService.addToUndo(new DeleteOperation<>(this.medicineIRepository, medicine));
     }
 
     public List<Medicine> getMedicines() { return this.medicineIRepository.read(); }
@@ -49,6 +54,10 @@ public class MedicineService {
         }
         return medicine;
     }
+
+    public void undoMedicineOperation() { this.undoRedoService.undo(); }
+
+    public void redoMedicineOperation() { this.undoRedoService.redo(); }
 
     public List<MedicinesWithNumberOfTransactions> getMedicinesOrderedByNumberOfTransactions() {
         Map<Integer, Integer> medicinesWithNumberOfTransactions = new HashMap<>();
