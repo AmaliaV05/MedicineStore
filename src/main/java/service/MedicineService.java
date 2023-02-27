@@ -14,6 +14,7 @@ public class MedicineService {
     private final IRepository<Transaction> transactionRepository;
     private final MedicineValidator medicineValidator;
     private final UndoRedoService undoRedoService;
+    private Medicine existingMedicine;
 
     public MedicineService(IRepository<Medicine> medicineIRepository, IRepository<Transaction> transactionRepository, MedicineValidator medicineValidator, UndoRedoService undoRedoService) {
         this.medicineIRepository = medicineIRepository;
@@ -23,16 +24,26 @@ public class MedicineService {
     }
 
     public void addMedicine(String name, String producer, BigDecimal price, boolean isOTC, int stock) throws KeyException, IOException {
-        Medicine medicineToAdd = new Medicine(name, producer, price, isOTC, stock);
-        this.medicineValidator.validateMedicine(medicineToAdd);
-        this.medicineIRepository.create(medicineToAdd);
+        if (!checkMedicineExists(name, producer)) {
+            Medicine medicineToAdd = new Medicine(name, producer, price, isOTC, stock);
+            this.medicineValidator.validateMedicine(medicineToAdd);
+            this.medicineIRepository.create(medicineToAdd);
+            if (undoRedoService != null)
+                this.undoRedoService.addToUndo(new AddOperation<>(this.medicineIRepository, medicineToAdd));
+        }
+        Medicine oldValue = this.medicineIRepository.readOne(existingMedicine.getIdEntity());
+        int newStock = this.existingMedicine.getStock() + stock;
+        this.existingMedicine.setStock(newStock);
+        this.medicineValidator.validateMedicine(existingMedicine);
+        this.medicineIRepository.update(existingMedicine);
         if (undoRedoService != null)
-            this.undoRedoService.addToUndo(new AddOperation<>(this.medicineIRepository, medicineToAdd));
+            this.undoRedoService.addToUndo(new UpdateOperation<>(this.medicineIRepository, oldValue, this.existingMedicine));
     }
 
     public void updateMedicine(int id, String name, String producer, BigDecimal price, boolean isOTC, int stock) throws Exception {
         Medicine oldValue = this.getMedicine(id);
         Medicine medicine = new Medicine(id, name, producer, price, isOTC, stock);
+        this.medicineValidator.validateMedicine(medicine);
         this.medicineIRepository.update(medicine);
         if (undoRedoService != null)
             this.undoRedoService.addToUndo(new UpdateOperation<>(this.medicineIRepository, oldValue, medicine));
@@ -90,5 +101,17 @@ public class MedicineService {
                 this.medicineIRepository.update(medicine);
             }
         }
+    }
+
+    private boolean checkMedicineExists(String medicineName, String producer) {
+        List<Medicine> medicines = this.getMedicines();
+        for (Medicine medicine : medicines) {
+            if (medicine.getName().equalsIgnoreCase(medicineName) &&
+                    medicine.getProducer().equalsIgnoreCase(producer)) {
+                this.existingMedicine = medicine;
+                return true;
+            }
+        }
+        return false;
     }
 }
